@@ -177,11 +177,9 @@ export class ProductFormComponent implements OnInit, AfterViewChecked {
 
       // Reset activity selection when collectionId changes
       for (const controlName of ['activity', 'activityType', 'activityId', 'activitySubType']) {
-        const value = controlName === 'activitySubType' ? controlName || [] : controlName || '';
-        if (this.form.get(controlName) == 'activity') {
-          this.form.get(controlName)?.setValue(value);
-          this.form.get(controlName)?.markAsDirty();
-        }
+        const resetValue = controlName === 'activitySubType' ? [] : (controlName === 'activity' ? null : '');
+        this.form.get(controlName)?.setValue(resetValue, { emitEvent: false });
+        this.form.get(controlName)?.markAsDirty();
       }
       
       console.log(`Loaded ${this.availableActivities.length} available activities for collection ${collectionId}`);
